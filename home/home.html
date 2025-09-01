@@ -1,0 +1,361 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lost & Found Dashboard</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link href='https://cdn.boxicons.com/fonts/brands/boxicons-brands.min.css' rel='stylesheet'>
+    <link href='https://cdn.boxicons.com/fonts/basic/boxicons.min.css' rel='stylesheet'>
+    <style>
+    .bg-palette-navbar { background-color: #1a1a1a; }
+    .bg-palette-sidebar { background-color: #2d3748; }
+    .bg-palette-main { background-color: #0f1419; }
+    .bg-palette-box { background-color: #1e293b; }
+    .bg-palette-card { background-color: #1e293b; }
+    .text-palette-navbar { color: #e2e8f0; }
+    .text-palette-sidebar { color: #e2e8f0; }
+    .text-palette-main { color: #f1f5f9; }
+    .text-palette-box { color: #cbd5e1; }
+    .border-palette { border-color: #475569; }
+    .hover-palette:hover { background-color: #374151; }
+    
+    /* Form styling */
+    .form-input:focus {
+      border-color: #3b82f6;
+      box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+    }
+    
+    /* Image upload styling */
+    .image-upload-area {
+      transition: all 0.3s ease;
+    }
+    
+    .image-upload-area:hover {
+      border-color: #3b82f6;
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+    
+    /* Success notification animation */
+    @keyframes slideInRight {
+      from { transform: translateX(100%); }
+      to { transform: translateX(0); }
+    }
+    
+    @keyframes slideOutRight {
+      from { transform: translateX(0); }
+      to { transform: translateX(100%); }
+    }
+    </style>
+</head>
+<body class="h-screen bg-[#0f1419] text-white">
+  <div class="grid grid-cols-[5rem_1fr_20rem] h-screen">
+
+    <!-- Sidebar -->
+    <aside class="flex flex-col px-3 py-6 gap-8 bg-[#1e293b] border-r border-palette">
+      <div class="flex flex-col gap-6">
+        <div class="text-center mb-4">
+          <i class='bx bx-search-alt text-3xl text-blue-400'></i>
+        </div>
+        <div class="flex flex-col gap-6 text-palette-main">
+          <div class="flex flex-col items-center group">
+            <i class='bx bx-home-alt-2 text-2xl cursor-pointer text-blue-400 group-hover:text-blue-300 transition-colors'></i>
+            <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Home</span>
+          </div>
+          <div class="flex flex-col items-center group">
+            <i class='bx bx-badge-exclamation text-2xl cursor-pointer text-gray-400 hover:text-yellow-400 transition-colors'></i>
+            <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Reports</span>
+          </div>
+          <div class="flex flex-col items-center group">
+            <i class="bx bx-cog text-2xl cursor-pointer text-gray-400 hover:text-blue-400 transition-colors"></i>
+            <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Settings</span>
+          </div>
+          <div class="flex flex-col items-center group">
+            <i class="bx bx-user-circle text-2xl cursor-pointer text-gray-400 hover:text-blue-400 transition-colors"></i>
+            <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Profile</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="bg-palette-main p-6 flex flex-col gap-6 overflow-y-auto">
+      <!-- Top bar -->
+      <div class="flex justify-between items-center rounded-xl p-4 bg-[#1e293b] border border-palette shadow-lg">
+        <div class="flex items-center gap-3 flex-1 max-w-2xl">
+          <div class="relative flex-1">
+            <i class="bx bx-search text-xl text-gray-400 absolute left-3 top-1/2 transform -translate-y-1/2"></i>
+            <input id="searchBox" type="text" placeholder="Search for lost or found items..."
+              class="w-full pl-10 pr-4 py-3 bg-[#0f1419] border border-palette rounded-lg outline-none text-white placeholder-gray-400 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all">
+          </div>
+        </div>
+        <div class="flex items-center gap-4 ml-4">
+          <button id="mainReportBtn" class="bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white font-semibold px-6 py-3 rounded-lg transition-all duration-200 transform hover:scale-105 shadow-lg">
+            <i class="bx bx-plus mr-2"></i>Report Item
+          </button>
+        </div>
+      </div>
+
+      <!-- Filters Section -->
+      <div class="bg-[#1e293b] rounded-xl p-6 border border-palette shadow-lg">
+        <div class="flex flex-col gap-4">
+          <!-- Category Filter -->
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-2">
+              <i class="bx bx-category text-blue-400"></i>
+              <span class="font-semibold text-white text-lg">Category</span>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <button class="category-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20">Bags</button>
+              <button class="category-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20">Charger</button>
+              <button class="category-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20">Bottle</button>
+              <button class="category-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20">ID Card</button>
+              <button class="category-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20">Phone</button>
+              <button class="category-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-blue-500/50 hover:shadow-lg hover:shadow-blue-500/20">Keys</button>
+            </div>
+          </div>
+
+          <!-- Location Filter -->
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-2">
+              <i class="bx bx-map-pin text-green-400"></i>
+              <span class="font-semibold text-white text-lg">Location</span>
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <button class="location-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20">Square1</button>
+              <button class="location-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20">Turing</button>
+              <button class="location-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20">Explo</button>
+              <button class="location-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20">Newton</button>
+              <button class="location-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20">DeMorgan</button>
+              <button class="location-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20">Picasso</button>
+              <button class="location-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20">Other</button>
+            </div>
+          </div>
+
+          <!-- Status Filter -->
+          <div class="flex flex-col gap-3">
+            <div class="flex items-center gap-2">
+              <i class="bx bx-info-circle text-purple-400"></i>
+              <span class="font-semibold text-white text-lg">Status</span>
+            </div>
+            <div class="flex gap-3">
+              <button class="status-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-red-500/50 hover:shadow-lg hover:shadow-red-500/20" data-status="lost">Lost Items</button>
+              <button class="status-btn px-4 py-2 bg-[#374151] hover:bg-[#4b5563] text-white rounded-lg transition-all duration-200 border border-transparent hover:border-green-500/50 hover:shadow-lg hover:shadow-green-500/20" data-status="found">Found Items</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Items Grid -->
+      <div class="flex-1">
+        <div class="flex items-center justify-between mb-4">
+          <h2 class="text-xl font-bold text-white">Items</h2>
+          <div class="flex items-center gap-2 text-sm text-gray-400">
+            <span id="totalCount">0</span> items found
+          </div>
+        </div>
+        <div id="itemGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+          <!-- Dynamic items will load here -->
+        </div>
+      </div>
+    </main>
+
+    <!-- Right Sidebar -->
+    <aside class="bg-[#1e293b] p-6 border-l border-palette overflow-y-auto">
+      <div class="text-center mb-8">
+        <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
+          <i class="bx bx-search-alt text-3xl text-white"></i>
+        </div>
+        <h3 class="font-bold text-lg text-white mb-2">Lost & Found</h3>
+        <p class="text-sm text-gray-400">Dashboard Overview</p>
+      </div>
+
+      <!-- Statistics Cards -->
+      <div class="space-y-4 mb-8">
+        <div id="lostCount" class="bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-500/30 rounded-xl p-4 text-center hover:shadow-lg hover:shadow-red-500/20 transition-all duration-200">
+          <div class="text-2xl font-bold text-red-400">0</div>
+          <div class="text-sm text-red-300">Lost Items</div>
+        </div>
+        <div id="foundCount" class="bg-gradient-to-r from-green-500/20 to-green-600/20 border border-green-500/30 rounded-xl p-4 text-center hover:shadow-lg hover:shadow-green-500/20 transition-all duration-200">
+          <div class="text-2xl font-bold text-green-400">0</div>
+          <div class="text-sm text-green-300">Found Items</div>
+        </div>
+      </div>
+
+      <!-- Quick Actions -->
+      <div class="space-y-3">
+        <h4 class="font-semibold text-white text-sm uppercase tracking-wide mb-3">Quick Actions</h4>
+        <button id="reportItemBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 transform hover:scale-105">
+          <i class="bx bx-plus"></i>
+          Report Item
+        </button>
+      </div>
+
+      <!-- Recent Activity -->
+      <div class="mt-8">
+        <h4 class="font-semibold text-white text-sm uppercase tracking-wide mb-3">Recent Activity</h4>
+        <div id="recentActivity" class="space-y-3 text-sm">
+          <!-- Dynamic recent activity will be loaded here -->
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Item Detail Modal -->
+  <div id="itemModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-[#1e293b] rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-palette">
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-4">
+          <h3 id="modalTitle" class="text-xl font-bold text-white"></h3>
+          <button id="closeModal" class="text-gray-400 hover:text-white text-2xl">
+            <i class="bx bx-x"></i>
+          </button>
+        </div>
+        <div id="modalContent" class="space-y-4">
+          <!-- Modal content will be populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Report Item Form Modal -->
+  <div id="reportFormModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
+    <div class="bg-[#1e293b] rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-palette">
+      <div class="p-6">
+        <div class="flex justify-between items-start mb-6">
+          <div>
+            <h3 id="reportFormTitle" class="text-2xl font-bold text-white mb-2">Report Item</h3>
+            <p id="reportFormSubtitle" class="text-gray-400">Fill in the details below to report your item</p>
+          </div>
+          <button id="closeReportForm" class="text-gray-400 hover:text-white text-2xl">
+            <i class="bx bx-x"></i>
+          </button>
+        </div>
+        
+        <form id="reportItemForm" class="space-y-6">
+          <!-- Item Type Selection -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Item Type *</label>
+              <div class="flex gap-3">
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="itemType" value="lost" class="text-blue-600" required>
+                  <span class="text-white">Lost Item</span>
+                </label>
+                <label class="flex items-center gap-2 cursor-pointer">
+                  <input type="radio" name="itemType" value="found" class="text-blue-600" required>
+                  <span class="text-white">Found Item</span>
+                </label>
+              </div>
+            </div>
+            
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Date *</label>
+              <input type="date" name="date" required class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all form-input">
+            </div>
+          </div>
+
+          <!-- Basic Information -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Item Title *</label>
+              <input type="text" name="title" placeholder="e.g., Black Backpack, iPhone 13" required class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all form-input">
+            </div>
+            
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Category *</label>
+              <select name="category" required class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all form-input">
+                <option value="">Select Category</option>
+                <option value="Bags">Bags</option>
+                <option value="Charger">Charger</option>
+                <option value="Bottle">Bottle</option>
+                <option value="IDCard">ID Card</option>
+                <option value="Phone">Phone</option>
+                <option value="Keys">Keys</option>
+                <option value="Electronics">Electronics</option>
+                <option value="Personal">Personal</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- Location and Description -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Location *</label>
+              <select name="location" required class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all form-input">
+                <option value="">Select Location</option>
+                <option value="Square1">Square1</option>
+                <option value="Turing">Turing</option>
+                <option value="Explo">Explo</option>
+                <option value="Newton">Newton</option>
+                <option value="DeMorgan">DeMorgan</option>
+                <option value="Picasso">Picasso</option>
+                <option value="Other">Other</option>
+              </select>
+            </div>
+            
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Specific Location</label>
+              <input type="text" name="specificLocation" placeholder="e.g., Room 201, Near entrance" class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all form-input">
+            </div>
+          </div>
+
+          <!-- Description -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-400">Description *</label>
+            <textarea name="description" placeholder="Provide detailed description of the item, when you lost/found it, any identifying features..." required rows="3" class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none form-input"></textarea>
+          </div>
+
+          <!-- Image Upload -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-400">Item Image</label>
+            <div class="border-2 border-dashed border-palette rounded-lg p-6 text-center hover:border-blue-500 transition-colors image-upload-area">
+              <input type="file" name="image" accept="image/*" class="hidden" id="imageInput">
+              <label for="imageInput" class="cursor-pointer">
+                <i class="bx bx-image-add text-4xl text-gray-400 mb-2"></i>
+                <p class="text-gray-400">Click to upload image or drag and drop</p>
+                <p class="text-sm text-gray-500 mt-1">PNG, JPG up to 5MB</p>
+              </label>
+            </div>
+            <div id="imagePreview" class="hidden mt-3">
+              <img id="previewImg" class="w-32 h-32 object-cover rounded-lg border border-palette">
+            </div>
+          </div>
+
+          <!-- Contact Information -->
+          <div class="grid grid-cols-2 gap-4">
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Contact Email *</label>
+              <input type="email" name="contact" placeholder="your.email@example.com" required class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all form-input">
+            </div>
+            
+            <div class="space-y-2">
+              <label class="text-sm font-medium text-gray-400">Phone Number</label>
+              <input type="text" name="phone" placeholder="+1 (555) 123-4567" class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all form-input">
+            </div>
+          </div>
+
+          <!-- Additional Details -->
+          <div class="space-y-2">
+            <label class="text-sm font-medium text-gray-400">Additional Details</label>
+            <textarea name="additionalDetails" placeholder="Any other relevant information, reward offered, special instructions..." rows="2" class="w-full px-4 py-3 bg-[#0f1419] border border-palette rounded-lg text-white placeholder-gray-500 focus:border-blue-500 focus:ring-2 focus:ring-blue-500/20 transition-all resize-none form-input"></textarea>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="flex gap-4 pt-6 border-t border-palette">
+            <button type="button" id="cancelReport" class="flex-1 bg-gray-600 hover:bg-gray-700 text-white py-3 rounded-lg transition-colors duration-200 font-medium">
+              Cancel
+            </button>
+            <button type="submit" class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-3 rounded-lg transition-colors duration-200 font-medium">
+              <i class="bx bx-send mr-2"></i>Submit Report
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <script src="home.js"></script>
+</body>
+</html>
