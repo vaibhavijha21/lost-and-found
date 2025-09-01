@@ -1,0 +1,685 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Loc8r — Lost & Found</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              50: '#EBFBFF',
+              100: '#CFF5FF',
+              200: '#9EEBFF',
+              300: '#66DCFF',
+              400: '#2FC6FF',
+              500: '#0DA6E6',
+              600: '#087FBA',
+              700: '#076496',
+              800: '#094F74',
+              900: '#0A3D59',
+            },
+          },
+          boxShadow: {
+            soft: '0 10px 30px -10px rgba(2, 132, 199, 0.35)',
+          },
+          borderRadius: {
+            '2xl': '1.25rem',
+            '3xl': '1.75rem',
+          },
+          keyframes: {
+            floatIn: {
+              '0%': { transform: 'translateY(-40px) scale(0.98)', opacity: '0' },
+              '100%': { transform: 'translateY(0) scale(1)', opacity: '1' },
+            },
+            riseIn: {
+              '0%': { transform: 'translateY(40px)', opacity: '0' },
+              '100%': { transform: 'translateY(0)', opacity: '1' },
+            },
+            fadeSlide: {
+              '0%': { opacity: '0', transform: 'translateY(16px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            pulseGlow: {
+              '0%, 100%': { boxShadow: '0 0 0 0 rgba(59,130,246,0.35)' },
+              '50%': { boxShadow: '0 0 0 16px rgba(59,130,246,0)' },
+            },
+            drift: {
+              '0%': { transform: 'translateY(0) translateX(0)' },
+              '50%': { transform: 'translateY(-20px) translateX(10px)' },
+              '100%': { transform: 'translateY(0) translateX(0)' },
+            },
+            marquee: {
+              '0%': { transform: 'translateX(0)' },
+              '100%': { transform: 'translateX(-50%)' },
+            },
+            shimmer: {
+              '0%': { 'background-position': '0% 50%' },
+              '100%': { 'background-position': '100% 50%' },
+            },
+            scaleBounce: {
+              '0%, 100%': { transform: 'scale(1)' },
+              '50%': { transform: 'scale(1.05)' },
+            },
+            rotateFloat: {
+              '0%': { transform: 'rotate(0deg)' },
+              '100%': { transform: 'rotate(360deg)' },
+            },
+          },
+          animation: {
+            floatIn: 'floatIn 900ms cubic-bezier(.21,1,.21,1) both',
+            riseIn: 'riseIn 900ms cubic-bezier(.21,1,.21,1) both',
+            fadeSlide: 'fadeSlide 600ms ease-out both',
+            pulseGlow: 'pulseGlow 2.6s ease-out infinite',
+            drift: 'drift 8s ease-in-out infinite',
+            marquee: 'marquee 30s linear infinite',
+            shimmer: 'shimmer 7s linear infinite',
+            scaleBounce: 'scaleBounce 4s ease-in-out infinite',
+            rotateFloat: 'rotateFloat 20s linear infinite',
+          },
+        },
+      },
+    };
+  </script>
+  <style>
+    :root{
+      --hero-bg:url('https://upload.wikimedia.org/wikipedia/commons/6/61/Chitkara_University_Campus.jpg');
+    }
+    .hero-bg{
+      background-image: var(--hero-bg);
+      background-size: cover;
+      background-position: center;
+      background-attachment: fixed;
+      filter: saturate(1.05);
+    }
+    .glass{ backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+    #nav-toggle:checked ~ #nav-menu { display: block; }
+  </style>
+</head>
+<body class="min-h-screen bg-slate-950 text-white selection:bg-brand-300/40">
+  <!-- NAVBAR -->
+<header class="fixed top-0 left-0 right-0 z-40">
+  <div class="mx-auto max-w-7xl px-4">
+    <div class="mt-4 rounded-2xl bg-white/5 glass shadow-soft">
+      <div class="flex items-center justify-between px-4 py-3">
+        <a href="#" class="flex items-center gap-3">
+          <span class="inline-flex h-10 w-10 items-center justify-center rounded-2xl bg-brand-500/90 ring-4 ring-brand-300/20">
+            <svg viewBox="0 0 24 24" class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="1.8">
+              <path d="M12 3l2.09 6.26L21 9.27l-5 3.73 1.91 6.22L12 15.77 6.09 19.22 8 12.99 3 9.27l6.91-.01L12 3z"/>
+            </svg>
+          </span>
+          <span class="text-lg font-semibold tracking-wide">Loc8r</span>
+        </a>
+
+        <label for="nav-toggle" class="cursor-pointer md:hidden">
+          <svg class="h-7 w-7" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </label>
+        <input id="nav-toggle" type="checkbox" class="hidden" />
+
+        <nav id="nav-menu" class="hidden md:block">
+          <ul class="flex flex-col items-start gap-3 md:flex-row md:items-center">
+            <li><a class="rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white" href="#about">About</a></li>
+            <li><a class="rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white" href="#how">How it works</a></li>
+            <li><a class="rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white" href="#mission">Our mission</a></li>
+            <li><a class="rounded-xl px-4 py-2 text-white/80 transition hover:bg-white/10 hover:text-white" href="#faq">FAQ</a></li>
+            <li><a class="rounded-xl bg-brand-500/90 px-4 py-2 font-medium shadow-soft transition hover:bg-brand-400" href="#cta">Get Started</a></li>
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- Lucide Icon CDN -->
+<script src="https://unpkg.com/lucide@latest"></script>
+
+<!-- HERO -->
+<section class="relative hero-bg">
+  <div class="absolute inset-0 bg-gradient-to-b from-slate-950/40 via-slate-950/60 to-slate-950"></div>
+
+  <div class="relative mx-auto flex flex-col md:flex-row min-h-[92vh] max-w-7xl items-center justify-between px-6 pt-28 pb-20 gap-10">
+    
+    <!-- Left Side -->
+    <div class="w-full md:w-1/2 max-w-3xl">
+      <!-- Label -->
+      <p class="mb-4 inline-flex rounded-full bg-white/10 px-3 py-1 text-sm text-white/80 ring-1 ring-white/20 opacity-0 -translate-x-10 transition-all duration-[2500ms] hero-text">
+        Campus & Citywide Lost & Found
+      </p>
+
+      <!-- Main Heading -->
+      <h1 class="bg-gradient-to-r from-white via-brand-200 to-white bg-[length:200%_100%] bg-clip-text text-4xl md:text-6xl font-extrabold tracking-tight text-transparent opacity-0 -translate-x-12 transition-all duration-[3000ms] hero-text [animation:shimmer_7s_linear_infinite]">
+        Loc8r — Find lost things faster.
+      </h1>
+
+      <!-- Subtext -->
+      <p class="mt-5 max-w-xl text-base md:text-lg text-white/80 opacity-0 -translate-y-10 transition-all duration-[2800ms] hero-text">
+        Post a lost or found item in seconds. Smart filters, beautiful cards, and a friendly community help reunite people with their belongings.
+      </p>
+
+      <!-- Buttons -->
+      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+        <a href="#cta" class="group inline-flex items-center justify-center rounded-2xl bg-white px-5 py-3 font-semibold text-slate-900 opacity-0 -translate-y-6 transition-all duration-[2600ms] hero-text hover:translate-y-[-3px] hover:shadow-soft">
+          Report an Item
+          <svg class="ml-2 h-5 w-5 transition group-hover:translate-x-1" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
+        </a>
+        <a href="#faq" class="inline-flex items-center justify-center rounded-2xl bg-white/10 px-5 py-3 font-semibold text-white backdrop-blur opacity-0 -translate-y-6 transition-all duration-[2600ms] hero-text hover:bg-white/20">
+          Browse Listings
+        </a>
+      </div>
+    </div>
+
+    <!-- Right Side: Radar Animation -->
+    <div class="relative w-full md:w-1/2 flex items-center justify-center">
+      <div class="relative w-[260px] h-[260px] sm:w-[320px] sm:h-[320px] md:w-[400px] md:h-[400px]">
+        <!-- Radar Circles -->
+        <div class="absolute inset-0 rounded-full border border-white/20"></div>
+        <div class="absolute inset-8 rounded-full border border-white/15"></div>
+        <div class="absolute inset-16 rounded-full border border-white/10"></div>
+        <div class="absolute inset-24 rounded-full border border-white/5"></div>
+
+        <!-- Radar Sweep -->
+        <div class="absolute inset-0 rounded-full origin-center animate-sweep"></div>
+
+        <!-- Center Icon -->
+        <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 
+                    flex h-16 w-16 sm:h-20 sm:w-20 md:h-24 md:w-24 items-center justify-center rounded-full 
+                    bg-white/20 text-2xl md:text-4xl text-white shadow-lg shadow-white/20 backdrop-blur z-20">
+          <i data-lucide="search" class="w-8 h-8 md:w-10 md:h-10"></i>
+        </div>
+
+        <!-- Radar Icons -->
+        <div class="radar-icons">
+          <div class="radar-position" style="--i:0"><div class="radar-dot"><i data-lucide="smartphone" class="w-5 h-5 sm:w-6 sm:h-6"></i></div></div>
+          <div class="radar-position" style="--i:1"><div class="radar-dot"><i data-lucide="shopping-bag" class="w-5 h-5 sm:w-6 sm:h-6"></i></div></div>
+          <div class="radar-position" style="--i:2"><div class="radar-dot"><i data-lucide="key" class="w-5 h-5 sm:w-6 sm:h-6"></i></div></div>
+          <div class="radar-position" style="--i:3"><div class="radar-dot"><i data-lucide="credit-card" class="w-5 h-5 sm:w-6 sm:h-6"></i></div></div>
+          <div class="radar-position" style="--i:4"><div class="radar-dot"><i data-lucide="briefcase" class="w-5 h-5 sm:w-6 sm:h-6"></i></div></div>
+          <div class="radar-position" style="--i:5"><div class="radar-dot"><i data-lucide="folder" class="w-5 h-5 sm:w-6 sm:h-6"></i></div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const heroElements = document.querySelectorAll('.hero-text');
+    const observer = new IntersectionObserver((entries, obs) => {
+      entries.forEach(entry => {
+        if(entry.isIntersecting){
+          entry.target.classList.add('opacity-100', 'translate-x-0', 'translate-y-0');
+          obs.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.3 });
+    heroElements.forEach(el => observer.observe(el));
+
+    // Lucide icons
+    lucide.createIcons();
+  });
+</script>
+
+<style>
+/* Radar Sweep */
+@keyframes sweep {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+.animate-sweep {
+  animation: sweep 6s linear infinite;
+  mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, transparent 100%);
+  -webkit-mask-image: radial-gradient(circle, rgba(0,0,0,1) 70%, transparent 100%);
+  background: conic-gradient(from 0deg, rgba(14,165,233,0.3), transparent 60%);
+}
+
+/* Position wrapper */
+.radar-icons {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  top: 0; left: 0;
+}
+
+.radar-position {
+  position: absolute;
+  top: 50%; left: 50%;
+  transform: rotate(calc(var(--i) * 60deg)) translateX(120px) rotate(calc(var(--i) * -60deg));
+}
+
+@media (min-width: 768px) {
+  .radar-position {
+    transform: rotate(calc(var(--i) * 60deg)) translateX(160px) rotate(calc(var(--i) * -60deg));
+  }
+}
+
+/* Dot style + pulse animation */
+.radar-dot {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  border-radius: 50%;
+  background: rgba(14,165,233,0.15);
+  color: white;
+  box-shadow: 0 0 12px rgba(14,165,233,0.6);
+  animation: pulse 2.5s infinite;
+}
+
+@media (min-width: 768px) {
+  .radar-dot {
+    width: 48px; height: 48px;
+  }
+}
+
+@keyframes pulse {
+  0%, 100% { transform: scale(1); opacity: 0.9; }
+  50% { transform: scale(1.2); opacity: 1; }
+}
+</style>
+
+
+<section id="about" class="relative py-24 bg-gradient-to-b from-black via-slate-900 to-black">
+  <div class="relative mx-auto max-w-4xl px-4 sm:px-6">
+    
+    <div class="relative mx-auto max-w-6xl px-4 sm:px-6 text-center">
+      <!-- Subheading -->
+      <p class="mb-4 inline-flex rounded-full bg-white/10 px-4 sm:px-6 py-2 sm:py-3 text-base sm:text-lg text-white/80 ring-1 ring-white/20 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+        About
+      </p>
+
+      <!-- Centered Line -->
+      <h2 class="text-center text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-violet-400 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+        Lost Something? Found Something?  
+      </h2>
+
+      <!-- Intro Paragraph -->
+      <p class="mt-4 text-center text-base sm:text-lg text-white/70 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+        Our Chitkara University <span class="font-semibold text-brand-300">Lost & Found portal</span> makes it simple to report, track, and recover belongings.  
+        Built for students and staff, it keeps our campus connected, safe, and helpful.
+      </p>
+    </div>
+
+    <!-- Timeline -->
+    <div class="mt-16 relative border-l border-white/20 pl-4 sm:pl-6">
+      
+      <!-- Feature 1 -->
+      <div class="mb-12 ml-4 sm:ml-6">
+        <div class="absolute -left-3 sm:-left-3.5 h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-cyan-500 flex items-center justify-center text-white shadow-lg">
+          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 17v-6h13M9 11V5a2 2 0 012-2h4l6 6v8a2 2 0 01-2 2h-6" />
+          </svg>
+        </div>
+        <h3 class="text-lg sm:text-xl font-semibold text-white opacity-0 translate-y-6 transition-all duration-1000 feature-text">Quick Lost & Found Reports</h3>
+        <p class="mt-2 text-sm sm:text-base text-white/70 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+          Easily log lost or found items with details and photos—so belongings can be returned faster.
+        </p>
+      </div>
+
+      <!-- Feature 2 -->
+      <div class="mb-12 ml-4 sm:ml-6">
+        <div class="absolute -left-3 sm:-left-3.5 h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-emerald-500 flex items-center justify-center text-white shadow-lg">
+          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 8c-1.5 0-3 .75-3 2.5S10.5 13 12 13s3 .75 3 2.5S13.5 18 12 18m0-10v1m0 9v1M5 12h14" />
+          </svg>
+        </div>
+        <h3 class="text-lg sm:text-xl font-semibold text-white opacity-0 translate-y-6 transition-all duration-1000 feature-text">Campus-Verified Users</h3>
+        <p class="mt-2 text-sm sm:text-base text-white/70 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+          Only Chitkara students and staff can log in, ensuring trust, authenticity, and rightful returns.
+        </p>
+      </div>
+
+      <!-- Feature 3 -->
+      <div class="ml-4 sm:ml-6">
+        <div class="absolute -left-3 sm:-left-3.5 h-6 w-6 sm:h-7 sm:w-7 rounded-full bg-violet-500 flex items-center justify-center text-white shadow-lg">
+          <svg class="h-3.5 w-3.5 sm:h-4 sm:w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M12 3v18m9-9H3" />
+          </svg>
+        </div>
+        <h3 class="text-lg sm:text-xl font-semibold text-white opacity-0 translate-y-6 transition-all duration-1000 feature-text">Safer, Kinder Campus</h3>
+        <p class="mt-2 text-sm sm:text-base text-white/70 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+          Our portal is more than just a list—it’s a way for students and staff to support each other and make campus life smoother.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const featureTexts = document.querySelectorAll('.feature-text');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting) {
+            entry.target.classList.add('opacity-100', 'translate-y-0');
+            observer.unobserve(entry.target); 
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    featureTexts.forEach(text => observer.observe(text));
+  });
+</script>
+
+
+<section id="how" class="relative py-24">
+  <div class="relative mx-auto max-w-6xl px-6 text-center">
+    <!-- Subheading -->
+    <p class="mb-4 inline-flex rounded-full bg-white/10 px-6 py-3 text-base sm:text-lg text-white/80 ring-1 ring-white/20 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+      How it works
+    </p>
+
+    <!-- Heading -->
+    <h2 class="text-center text-2xl sm:text-3xl md:text-4xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-violet-400 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+      Your lost item, back in 3 simple steps 
+    </h2>
+
+    <!-- Intro Paragraph -->
+    <p class="mx-auto mt-4 max-w-3xl text-base sm:text-lg text-white/70 opacity-0 translate-y-6 transition-all duration-1000 feature-text">
+      Follow the journey of your item—from lost to found—with our seamless process.
+    </p>
+
+    <!-- Steps Section -->
+    <div class="mt-16 md:mt-24 relative flex flex-col md:flex-row md:justify-between md:items-start gap-16 md:gap-0">
+      
+      <!-- Step 1 -->
+      <div class="flex flex-col items-center text-center max-w-[250px] mx-auto md:mx-0">
+        <div class="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-brand-500 shadow-soft transition-transform duration-500 step-circle">
+          <span class="text-xl sm:text-2xl font-bold">1</span>
+        </div>
+        <h3 class="mt-4 text-xl sm:text-2xl font-semibold text-white opacity-0 translate-y-6 transition-all duration-1000 feature-text" data-delay="0">
+          Step 1: Report
+        </h3>
+        <p class="mt-2 text-white/70 text-sm sm:text-base opacity-0 translate-y-6 transition-all duration-1000 feature-text" data-delay="100">
+          Post a lost or found item in under 30 seconds with photos, details, and location.
+        </p>
+      </div>
+
+      <!-- Step 2 -->
+      <div class="flex flex-col items-center text-center max-w-[250px] mx-auto md:mx-0">
+        <div class="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-emerald-500 shadow-soft transition-transform duration-500 step-circle">
+          <span class="text-xl sm:text-2xl font-bold">2</span>
+        </div>
+        <h3 class="mt-4 text-xl sm:text-2xl font-semibold text-white opacity-0 translate-y-6 transition-all duration-1000 feature-text" data-delay="200">
+          Step 2: Discover
+        </h3>
+        <p class="mt-2 text-white/70 text-sm sm:text-base opacity-0 translate-y-6 transition-all duration-1000 feature-text" data-delay="300">
+          Use smart filters—narrow by category, color, date, or location to find matches quickly.
+        </p>
+      </div>
+
+      <!-- Step 3 -->
+      <div class="flex flex-col items-center text-center max-w-[250px] mx-auto md:mx-0">
+        <div class="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-violet-500 shadow-soft transition-transform duration-500 step-circle">
+          <span class="text-xl sm:text-2xl font-bold">3</span>
+        </div>
+        <h3 class="mt-4 text-xl sm:text-2xl font-semibold text-white opacity-0 translate-y-6 transition-all duration-1000 feature-text" data-delay="400">
+          Step 3: Reunite
+        </h3>
+        <p class="mt-2 text-white/70 text-sm sm:text-base opacity-0 translate-y-6 transition-all duration-1000 feature-text" data-delay="500">
+          Connect instantly and reclaim your belongings—quickly, safely, and hassle-free.
+        </p>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<script>
+  document.addEventListener("DOMContentLoaded", () => {
+    const featureTexts = document.querySelectorAll('.feature-text');
+    const stepCircles = document.querySelectorAll('.step-circle');
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(entry => {
+          if(entry.isIntersecting){
+            const delay = entry.target.dataset.delay || 0;
+            setTimeout(() => {
+              entry.target.classList.add('opacity-100', 'translate-y-0');
+            }, delay);
+
+            const parent = entry.target.closest('div.flex.flex-col');
+            if(parent){
+              const circle = parent.querySelector('.step-circle');
+              if(circle) circle.classList.add('scale-110');
+            }
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.5 }
+    );
+
+    featureTexts.forEach(text => observer.observe(text));
+  });
+</script>
+
+
+<!-- OUR MISSION -->
+<section id="mission" class="relative py-20 sm:py-28 bg-gradient-to-b from-black via-slate-900 to-black">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_20%_30%,rgba(59,130,246,0.07),transparent_40%),radial-gradient(circle_at_80%_70%,rgba(124,58,237,0.07),transparent_40%)]"></div>
+  
+  <div class="relative mx-auto max-w-6xl px-4 sm:px-6 lg:px-8 text-center">
+    <!-- Label -->
+    <p class="mb-4 mission-text opacity-0 translate-y-6 inline-flex rounded-full bg-white/10 px-4 sm:px-6 py-2 sm:py-3 text-sm sm:text-lg text-white/80 ring-1 ring-white/20">
+      Our Mission
+    </p>
+
+    <!-- Title -->
+    <h2 class="mb-6 mission-text opacity-0 -translate-x-6 text-2xl sm:text-4xl lg:text-5xl font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 via-white to-violet-400">
+      Bringing Lost Things Back Home
+    </h2>
+
+    <!-- Description -->
+    <p class="mission-text opacity-0 translate-x-6 mx-auto mt-4 max-w-3xl text-base sm:text-lg text-white/70 leading-relaxed px-2">
+      At <span class="font-semibold text-white">Loc8r</span>, we believe every lost item deserves a way back to its owner.  
+      Our mission is to create a safe, reliable, and community-driven space where people can report, search, and reunite with their belongings with ease and peace of mind.
+    </p>
+
+    <!-- Mission Highlights -->
+    <div class="mt-14 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 lg:gap-10 text-left">
+      <!-- Card 1 -->
+      <div class="glow-card opacity-0 -translate-y-10 p-6 rounded-2xl bg-white/5 transition-transform transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-400/50">
+        <h3 class="text-lg sm:text-xl font-semibold mb-2">🔍 Easy Search</h3>
+        <p class="text-white/70 text-sm sm:text-base">Find your lost items faster with smart search tools and location-based listings.</p>
+      </div>
+
+      <!-- Card 2 -->
+      <div class="glow-card opacity-0 translate-x-10 p-6 rounded-2xl bg-white/5 transition-transform transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-400/50">
+        <h3 class="text-lg sm:text-xl font-semibold mb-2">🤝 Trusted Community</h3>
+        <p class="text-white/70 text-sm sm:text-base">A supportive network where honesty and kindness help reconnect people with what they’ve lost.</p>
+      </div>
+
+      <!-- Card 3 -->
+      <div class="glow-card opacity-0 translate-y-10 p-6 rounded-2xl bg-white/5 transition-transform transform hover:scale-105 hover:shadow-lg hover:shadow-cyan-400/50">
+        <h3 class="text-lg sm:text-xl font-semibold mb-2">⚡ Safe & Reliable</h3>
+        <p class="text-white/70 text-sm sm:text-base">Every exchange is built on trust, ensuring that your belongings return to you securely.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .glow-card {
+    position: relative;
+    z-index: 0;
+    box-shadow: 0 0 15px rgba(14,165,233,0.3); /* softer base glow */
+    transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                box-shadow 0.5s cubic-bezier(0.4, 0, 0.2, 1), 
+                opacity 2s ease;
+  }
+  .glow-card:hover {
+    transform: translateY(-12px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(14,165,233,0.6), 
+                0 0 30px rgba(14,165,233,0.4);
+  }
+  .mission-text {
+    transition: opacity 2s ease, transform 2s ease;
+  }
+  .visible {
+    opacity: 1 !important;
+    transform: translate(0,0) !important;
+  }
+</style>
+
+<script>
+  const observerOptions = { threshold: 0.2 };
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const delay = entry.target.dataset.delay || 0;
+        setTimeout(() => {
+          entry.target.classList.add('visible');
+        }, delay);
+        obs.unobserve(entry.target);
+      }
+    });
+  }, observerOptions);
+
+  document.querySelectorAll('.glow-card, .mission-text').forEach((el, i) => {
+    el.dataset.delay = i * 150; // 150ms stagger
+    observer.observe(el);
+  });
+</script>
+
+
+<!-- FAQ -->
+<section id="faq" class="relative py-24">
+  <div class="absolute inset-0 bg-[radial-gradient(circle_at_30%_70%,rgba(2,132,199,0.08),transparent_40%)]"></div>
+  <div class="relative mx-auto max-w-5xl px-6">
+    <h2 class="faq-text opacity-0 translate-y-6 text-3xl font-bold tracking-tight transition-all duration-1000">Frequently Asked Questions</h2>
+    <div class="mt-8 space-y-4">
+      <details class="faq-text group rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 opacity-0 translate-y-6 transition-all duration-1000">
+        <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-medium">
+          How do I prove an item is mine?
+          <svg class="ml-4 h-5 w-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </summary>
+        <p class="mt-3 text-white/70">Provide a unique detail (e.g., last 4 digits of phone, a sticker, a custom engraving). Only the rightful owner will know.</p>
+      </details>
+
+      <details class="faq-text group rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 opacity-0 translate-y-6 transition-all duration-1000">
+        <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-medium">
+          Is this free to use?
+          <svg class="ml-4 h-5 w-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </summary>
+        <p class="mt-3 text-white/70">Yes. It’s community-run. You can volunteer to help verify reports and moderate.</p>
+      </details>
+
+      <details class="faq-text group rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 opacity-0 translate-y-6 transition-all duration-1000">
+        <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-medium">
+          What about privacy?
+          <svg class="ml-4 h-5 w-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </summary>
+        <p class="mt-3 text-white/70">Don’t share personal info publicly. Share pickup details in DMs after verifying ownership.</p>
+      </details>
+
+      <details class="faq-text group rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 opacity-0 translate-y-6 transition-all duration-1000">
+        <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-medium">
+          How do I report a lost or found item?
+          <svg class="ml-4 h-5 w-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </summary>
+        <p class="mt-3 text-white/70">Click the “Report Item” button, fill in the item’s details (description, photo, location), and submit. Others can then view and respond.</p>
+      </details>
+
+      <details class="faq-text group rounded-2xl bg-white/5 p-5 ring-1 ring-white/10 opacity-0 translate-y-6 transition-all duration-1000">
+        <summary class="flex cursor-pointer list-none items-center justify-between text-lg font-medium">
+          What if no one claims my found item?
+          <svg class="ml-4 h-5 w-5 transition-transform group-open:rotate-180" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </summary>
+        <p class="mt-3 text-white/70">If no one claims it after a certain time, follow local guidelines (e.g., hand it to authorities or your institution’s lost & found desk).</p>
+      </details>
+    </div>
+  </div>
+</section>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+  // Only one FAQ open at a time
+  const faqDetails = document.querySelectorAll('#faq details');
+  faqDetails.forEach(detail => {
+    detail.addEventListener('toggle', () => {
+      if (detail.open) {
+        faqDetails.forEach(other => {
+          if (other !== detail) other.removeAttribute('open');
+        });
+      }
+    });
+  });
+
+  // Scroll animation for FAQs
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if(entry.isIntersecting){
+        entry.target.classList.remove('opacity-0', 'translate-y-6');
+        entry.target.classList.add('opacity-100', 'translate-y-0');
+        obs.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.2 });
+
+  document.querySelectorAll('.faq-text').forEach(el => observer.observe(el));
+});
+</script>
+
+
+
+<!-- CTA -->
+<section id="cta" class="relative pb-16 md:pb-24 px-4 sm:px-6 lg:px-8">
+  <div class="relative mx-auto max-w-6xl">
+    <div class="overflow-hidden rounded-3xl bg-gradient-to-br from-brand-600 via-indigo-600 to-violet-600 p-1 shadow-soft">
+      <div class="flex flex-col items-start justify-between gap-6 rounded-[1.35rem] bg-slate-950/80 p-6 sm:p-8 md:flex-row md:items-center">
+        <div class="text-center md:text-left">
+          <h3 class="text-xl sm:text-2xl font-bold">Ready to help someone smile?</h3>
+          <p class="mt-1 text-sm sm:text-base text-white/80">Post your lost or found item now. It only takes a minute.</p>
+        </div>
+        <a href="#report" class="inline-flex items-center justify-center rounded-2xl bg-white px-4 sm:px-5 py-2.5 sm:py-3 font-semibold text-slate-900 transition hover:-translate-y-0.5">
+          Start Posting
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="border-t border-white/10 py-8 sm:py-10 px-4 sm:px-6">
+  <div class="mx-auto max-w-7xl">
+    <div class="flex flex-col items-center justify-between gap-4 sm:gap-6 md:flex-row">
+      <p class="text-sm sm:text-base text-white/60">© <span id="year">2025</span> Loc8r — Lost & Found Platform</p>
+      <div class="flex flex-wrap items-center gap-3 sm:gap-4 text-sm sm:text-base text-white/70">
+        <a class="hover:text-white" href="#">Privacy</a>
+        <span class="opacity-30 hidden sm:inline">•</span>
+        <a class="hover:text-white" href="#">Terms</a>
+        <span class="opacity-30 hidden sm:inline">•</span>
+        <a class="hover:text-white" href="#">Contact</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+</body>
+</html>
