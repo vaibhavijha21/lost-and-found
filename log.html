@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=\, initial-scale=1.0">
-    <title>Document</title>
+    <title>Authentication</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
         
@@ -259,7 +259,7 @@ input {
         class="w-96 bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition transform hover:scale-105 duration-200">
         Create Account
       </button>
-      <button id="googleBtn" type="button" 
+      <button id="googlesignupBtn" type="button" 
         class="w-96 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition transform hover:scale-105 duration-200 flex items-center justify-center gap-2">
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google"> 
         Continue with Google
@@ -304,7 +304,7 @@ input {
         class="w-96 bg-blue-500 text-white py-2 rounded-lg hover:bg-blue-700 transition transform hover:scale-105 duration-200">
         Login
       </button>
-      <button id="googleBtn" type="button" 
+      <button id="googleloginBtn" type="button" 
         class="w-96 bg-red-500 text-white py-2 rounded-lg hover:bg-red-600 transition transform hover:scale-105 duration-200 flex items-center justify-center gap-2">
         <img src="https://www.svgrepo.com/show/475656/google-color.svg" class="w-5 h-5" alt="Google"> 
         Continue with Google
@@ -413,19 +413,24 @@ signInButton.addEventListener('click', () => {
       .then((userCredential) => {
         alert("✅ Login Successful!");
         console.log(userCredential.user);
+
+            window.location.href = "home/home.html";
       })
       .catch((error) => {
         alert("❌ " + error.message);
       });
   });
 
-  document.getElementById("googleBtn").addEventListener("click", (e) => {
+  document.getElementById("googleloginBtn").addEventListener("click", (e) => {
     e.preventDefault();
     const provider = new GoogleAuthProvider();
     signInWithPopup(auth, provider)
       .then((result) => {
         alert("✅ Google Login Successful!");
         console.log(result.user);
+
+        window.location.href = "home/home.html";
+
       })
       .catch((error) => {
         alert("❌ " + error.message);
@@ -454,6 +459,20 @@ signInButton.addEventListener('click', () => {
      document.getElementById("signupemail").disabled = false;
      document.getElementById("signuppassword").disabled = false;
   });
+
+   document.getElementById("googlesignupBtn").addEventListener("click", (e) => {
+  e.preventDefault();
+  const provider = new GoogleAuthProvider();
+  signInWithPopup(auth, provider)
+    .then((result) => {
+      alert("✅ Google Signup Successful!");
+      console.log(result.user);
+      window.location.href = "home/home.html";
+    })
+    .catch((error) => {
+      alert("❌ " + error.message);
+    });
+});
 
   document.getElementById("signupBtn").addEventListener("click", (e) => {
     e.preventDefault();
