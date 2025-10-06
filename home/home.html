@@ -51,36 +51,36 @@
 <body class="h-screen bg-[#0f1419] text-white">
   <div class="grid grid-cols-[5rem_1fr_20rem] h-screen">
 
-    <!-- Sidebar -->
+    
     <aside class="flex flex-col px-3 py-6 gap-8 bg-[#1e293b] border-r border-palette">
       <div class="flex flex-col gap-6">
         <div class="text-center mb-4">
-          <i class='bx bx-search-alt text-3xl text-blue-400'></i>
+          <i class='bx bx-search-alt text-3xl text-gray-400'></i>
         </div>
         <div class="flex flex-col gap-6 text-palette-main">
           <div class="flex flex-col items-center group">
-            <i class='bx bx-home-alt-2 text-2xl cursor-pointer text-blue-400 group-hover:text-blue-300 transition-colors'></i>
+            <i class='bx bx-home-alt-2 text-2xl cursor-pointer text-gray-400 hover:text-gray-300 transition-colors'></i>
             <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Home</span>
           </div>
           <div class="flex flex-col items-center group">
-            <i class='bx bx-badge-exclamation text-2xl cursor-pointer text-gray-400 hover:text-blue-400 transition-colors'></i>
+            <i class='bx bx-badge-exclamation text-2xl cursor-pointer text-gray-400 hover:text-gray-400 transition-colors'></i>
             <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Reports</span>
           </div>
           <div class="flex flex-col items-center group">
-            <i class="bx bx-cog text-2xl cursor-pointer text-gray-400 hover:text-blue-400 transition-colors"></i>
+            <i class="bx bx-cog text-2xl cursor-pointer text-gray-400 hover:text-gray-400 transition-colors"></i>
             <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Settings</span>
           </div>
-          <div class="flex flex-col items-center group">
-            <i class="bx bx-user-circle text-2xl cursor-pointer text-gray-400 hover:text-blue-400 transition-colors"></i>
-            <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Profile</span>
+          <div class="flex flex-col items-center group pl-4">
+           <a href="Userprofile.html"><i class="bx bx-user-circle text-2xl cursor-pointer text-gray-400 hover:text-gray-400 transition-colors"></i>
+            <span class="text-xs mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Profile</a></span>
           </div>
         </div>
       </div>
     </aside>
 
-    <!-- Main Content -->
+    
     <main class="bg-palette-main p-6 flex flex-col gap-6 overflow-y-auto">
-      <!-- Top bar -->
+      
       <div class="flex justify-between items-center rounded-xl p-4 bg-[#1e293b] border border-palette shadow-lg">
         <div class="flex items-center gap-3 flex-1 max-w-2xl">
           <div class="relative flex-1">
@@ -96,10 +96,10 @@
         </div>
       </div>
 
-      <!-- Filters Section -->
+      
       <div class="bg-[#1e293b] rounded-xl p-6 border border-palette shadow-lg">
         <div class="flex flex-col gap-4">
-          <!-- Category Filter -->
+          
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
               <i class="bx bx-category text-blue-400"></i>
@@ -115,7 +115,7 @@
             </div>
           </div>
 
-          <!-- Location Filter -->
+          
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
               <i class="bx bx-map-pin text-green-400"></i>
@@ -132,7 +132,7 @@
             </div>
           </div>
 
-          <!-- Status Filter -->
+          
           <div class="flex flex-col gap-3">
             <div class="flex items-center gap-2">
               <i class="bx bx-info-circle text-purple-400"></i>
@@ -146,7 +146,7 @@
         </div>
       </div>
 
-      <!-- Items Grid -->
+      
       <div class="flex-1">
         <div class="flex items-center justify-between mb-4">
           <h2 class="text-xl font-bold text-white">Items</h2>
@@ -154,13 +154,13 @@
             <span id="totalCount">0</span> items found
           </div>
         </div>
-        <div id="itemGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          <!-- Dynamic items will load here -->
+        <div id="itemGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-3 gap-6">
+          
         </div>
       </div>
     </main>
 
-    <!-- Right Sidebar -->
+    
     <aside class="bg-[#1e293b] p-6 border-l border-palette overflow-y-auto">
       <div class="text-center mb-8">
         <div class="w-20 h-20 mx-auto mb-4 bg-gradient-to-br from-blue-500 to-purple-600 rounded-full flex items-center justify-center">
@@ -170,7 +170,6 @@
         <p class="text-sm text-gray-400">Dashboard Overview</p>
       </div>
 
-      <!-- Statistics Cards -->
       <div class="space-y-4 mb-8">
         <div id="lostCount" class="bg-gradient-to-r from-red-500/20 to-red-600/20 border border-red-500/30 rounded-xl p-4 text-center hover:shadow-lg hover:shadow-red-500/20 transition-all duration-200">
           <div class="text-2xl font-bold text-red-400">0</div>
@@ -182,7 +181,7 @@
         </div>
       </div>
 
-      <!-- Quick Actions -->
+    
       <div class="space-y-3">
         <h4 class="font-semibold text-white text-sm uppercase tracking-wide mb-3">Quick Actions</h4>
         <button id="reportItemBtn" class="w-full bg-gradient-to-r from-blue-600 to-blue-700 hover:from-blue-700 hover:to-blue-800 text-white px-4 py-2 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 transform hover:scale-105">
@@ -191,17 +190,16 @@
         </button>
       </div>
 
-      <!-- Recent Activity -->
       <div class="mt-8">
         <h4 class="font-semibold text-white text-sm uppercase tracking-wide mb-3">Recent Activity</h4>
         <div id="recentActivity" class="space-y-3 text-sm">
-          <!-- Dynamic recent activity will be loaded here -->
+          
         </div>
       </div>
     </aside>
   </div>
 
-  <!-- Item Detail Modal -->
+ 
   <div id="itemModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-[#1e293b] rounded-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto border border-palette">
       <div class="p-6">
@@ -212,13 +210,13 @@
           </button>
         </div>
         <div id="modalContent" class="space-y-4">
-          <!-- Modal content will be populated here -->
+        
         </div>
       </div>
     </div>
   </div>
 
-  <!-- Report Item Form Modal -->
+  
   <div id="reportFormModal" class="fixed inset-0 bg-black bg-opacity-50 hidden z-50 flex items-center justify-center p-4">
     <div class="bg-[#1e293b] rounded-xl max-w-4xl w-full max-h-[90vh] overflow-y-auto border border-palette">
       <div class="p-6">
@@ -255,7 +253,6 @@
             </div>
           </div>
 
-          <!-- Basic Information -->
           <div class="grid grid-cols-2 gap-4">
             <div class="space-y-2">
               <label class="text-sm font-medium text-gray-400">Item Title *</label>
