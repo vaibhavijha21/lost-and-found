@@ -88,7 +88,7 @@ input {
 .container {
 	background-color: #fff;
 	border-radius: 10px;
-  	box-shadow:  0 0 20px rgba(42, 75, 141, 0.5);
+  box-shadow:  0 0 20px rgba(42, 75, 141, 0.5);
 	position: relative;
 	overflow: hidden;
 	width: 640px;
@@ -100,6 +100,7 @@ input {
 	position: absolute;
 	top: 0;
 	height: 100%;
+  /* width: 50%; */
 	transition: all 0.6s ease-in-out;
 }
 
@@ -224,13 +225,13 @@ input {
     </style>
 </head>
 <body class="bg-gradient-to-b from-[#0F172A] to-[#0B2545]">
-<div class="container" id="container">
+<div class="container w-[70%]" id="container">
 	<div class="form-container sign-up-container">
 
   <!-- signup form  -->
     <form class="space-y-2">
          <h2 class="text-3xl font-extrabold text-center text-gray-600 mb-6 animate-bounce">
-       🗝️Create Your Account
+       🔑Create Your Account
     </h2>
       <select id="signuprole" class="w-96 font-bold text-gray-900 px-4 py-2 border mb-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
         <option disabled selected>Select Role</option>
@@ -271,7 +272,7 @@ input {
 
 <!-- login form -->
     <form class="space-y-2">
-        <h2 class="text-gray-600 text-3xl font-extrabold text-center mb-4  animate-bounce">
+        <h2 class="text-gray-600 text-3xl font-extrabold text-center mb-4 animate-bounce">
       🔐 Login to Loc8r
     </h2>
       <select id="role" class="text-gray-900 w-96 font-bold px-4 py-2 border mt-4 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
